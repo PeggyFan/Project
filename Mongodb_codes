@@ -8,18 +8,15 @@ NEW SET OF KEYS
 3. Community API key: a82b69969dc925ab73a0f51ddf8a1054:15:73019606
 4. Community API key: f16ea9a0449b856bc44a665bfdaf82b0:15:73040063
 
-5. Community API key: 276456ce0648f5cece25c742f6b494d6:15:73040305
-
 1. Article Search API key: 6aa7150f47a4ac1982fe16ff7d847eb6:8:73015248
 2. Article Search API key: 74c73309c1052e6aa1785df7cd5cef8c:9:69947183
 
 
 db.tab.createIndex( { "_id" : 1 }, { unique: true } )
-db.tab.ensureIndex({'commentBody' : 1},{unique: true, dropDups: true})
 
 db.tab2.aggregate([
   { $group: { 
-    _id: { 'commentBody' : "$commentID" }, 
+    _id: { 'commentID' : "$commentID" }, 
     uniqueIds: { $addToSet: "$_id" },
     count: { $sum: 1 } 
   }}, 
@@ -28,13 +25,4 @@ db.tab2.aggregate([
   }}
 ])
 
-
-
-db.tab2.distinct("userDisplayName").length
-
-db.tab2.aggregate([
-    {"$group" : {_id:"$userDisplayName", count:{$sum:1},}, $sort:{count:-1}
-    }])
-
-db.tab2.aggregate([     {"$group" : {_id:"$userDisplayName", count:{$sum:1}}} ])
-
+db.tab.ensureIndex({'commentBody' : 1},{unique: true, dropDups: true})
