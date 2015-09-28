@@ -16,7 +16,7 @@ from nltk.stem.snowball import SnowballStemmer
 snowball = SnowballStemmer('english')
 import pandas as pd
 
-master = pd.read_csv('data/master.csv', low_memory=False)
+master = pd.read_csv('data/trump_sim.csv', low_memory=False)
 
 unique_url = master['URL'].unique()
 
@@ -50,7 +50,7 @@ for url in unique_url:
     master.loc[cond, 'tfidf_similarity'] = np.array(similar_to_article)
 
 
-master.iloc[:,-1].to_csv('master_sum.csv')
+master.iloc[:,-1].to_csv('trump_sim_scores.csv')
 
 
 
