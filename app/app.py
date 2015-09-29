@@ -3,7 +3,6 @@ import cPickle as pickle
 app = Flask(__name__)
 
 
-
 # home page
 @app.route('/')
 def index():
@@ -12,14 +11,18 @@ def index():
     # Welcome to Articles Classifier!
     # <a href='\submission'>Submission Page</a>
     # '''
+@app.route('/<candidate>')
+def candidate_page(candidate):
+  html_page = candidate + '.html'
+  return render_template(html_page, data="")
 
-@app.route('/hilary')
-def hilary_page():
-    return render_template("hilary.html", data="")
+# @app.route('/hilary')
+# def hilary_page():
+#     return render_template("hilary.html", data="")
          
-@app.route('/sanders')
-def sanders_page():
-    return render_template("sanders.html", data="")
+# @app.route('/sanders')
+# def sanders_page():
+#     return render_template("sanders.html", data="")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
