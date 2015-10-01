@@ -39,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Jeb Bush/a>
+                <a class="navbar-brand" href="#">
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -66,7 +66,7 @@
         <!-- Introduction Row -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">New York Times Comments Summarizer
+                <h1 class="page-header">Candidate Thermometer: New York Times Comments Summarizer
                     <small></small>
                 </h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint, explicabo dolores ipsam aliquam inventore corrupti eveniet quisquam quod totam laudantium repudiandae obcaecati ea consectetur debitis velit facere nisi expedita vel?</p>
@@ -78,59 +78,56 @@
             <div class="col-lg-12">
                 <h2 class="page-header">Presidential Candidates</h2>
             </div>
+
             <div class="col-lg-4 col-sm-6 text-center">
-                <a href=/hilary><img class="img-circle img-responsive img-center" src="../static/img/hilary.jpg" alt="">
+                <a href=/hilary><img class="img-circle img-responsive img-center" src="../static/img/hilary.jpg" onmouseover="firstImg(this, 'hilary2')" onmouseout="secondImg(this, 'hilary')"></a>
                 <a href="/hilary.html#positive"></a>
-                <h3>Hilary Rodham Clinton
-                    <small>Democratic Party</small>
+                <h3>Hillary Rodham Clinton
                 </h3>
-                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+                <p>Democratic Party</p>
             </div>
             <!-- Team Members Row -->
             <div class="col-lg-4 col-sm-6 text-center">
-                <a href=/sanders><img class="img-circle img-responsive img-center" src="../static/img/sanders.jpg" alt="">
+                <!-- <a href=/sanders><img class="img-circle img-responsive img-center" src="../static/img/sanders.jpg" alt=""> -->
+                <a href="/sanders"><img class="img-circle img-responsive img-center" src="../static/img/sanders.jpg" onmouseover="firstImg(this, 'sanders2')" onmouseout="secondImg(this, 'sanders')"></a>
+                <a href="/biden.html"></a>
                 <a href="/sanders.html"></a>
                 <h3>Bernie Sanders
-                    <small>Democratic Party</small>
                 </h3>
-                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+                <p>Democratic Party</p>
             </div>
             <!-- Team Members Row -->
             <div class="col-lg-4 col-sm-6 text-center">
                 <!-- <a href="/biden"><img class="img-circle img-responsive img-center" src="../static/img/biden.jpg" alt=""> -->
-                <a href="/biden"><img class="img-circle img-responsive img-center" src="../static/img/biden.jpg" onmouseover="src='../static/img/biden1.jpg'" onmouseout="src='../static/img/biden.jpg'"></a>
+                <a href="/biden"><img class="img-circle img-responsive img-center" src="../static/img/biden.jpg" onmouseover="firstImg(this, 'biden2')" onmouseout="secondImg(this, 'biden')"></a>
                 <a href="/biden.html"></a>
                 <h3>Joe Biden
-                    <small>Democratic Party</small>
                 </h3>
-                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+                <p>Democratic Party</p>
             </div>
             <!-- Team Members Row -->
             <div class="col-lg-4 col-sm-6 text-center">
-                <a href=/trump><img class="img-circle img-responsive img-center" src="../static/img/trump.jpg" alt="">
+                <a href=/trump><img class="img-circle img-responsive img-center" src="../static/img/trump.jpg" onmouseover="firstImg(this, 'trump1')" onmouseout="secondImg(this, 'trump')"></a>
                 <a href="/trump.html"></a>
                 <h3>Donald Trump
-                    <small>Republican Party</small>
                 </h3>
-                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+                <p>Republican Party</p>
             </div>
             <!-- Team Members Row -->
             <div class="col-lg-4 col-sm-6 text-center">
-                <a href=/bush><img class="img-circle img-responsive img-center" src="../static/img/bush.jpg" alt="">
+                <a href=/bush><img class="img-circle img-responsive img-center" src="../static/img/bush.jpg" onmouseover="firstImg(this, 'bush1')" onmouseout="secondImg(this, 'bush')"></a>
                 <a href="/bush.html"></a>
                 <h3>Jeb Bush
-                    <small>Republican Party</small>
                 </h3>
-                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+                <p>Republican Party</p>
             </div>
             <!-- Team Members Row -->
             <div class="col-lg-4 col-sm-6 text-center">
-                <a href=/carson><img class="img-circle img-responsive img-center" src="../static/img/carson.jpg">
+                <a href=/carson><img class="img-circle img-responsive img-center" src="../static/img/carson.jpg" onmouseover="firstImg(this, 'carson1')" onmouseout="secondImg(this, 'carson')"></a>
                 <a href="/carson.html"></a>
                 <h3>Ben Carson
-                    <small>Republican Party</small>
                 </h3>
-                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+                <p>Republican Party</p>
             </div>
         </div>
 
@@ -156,6 +153,21 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../static/js/bootstrap.min.js"></script>
 
+
+    <script>
+    function firstImg(x, text) {
+        // x.style.height = "300px";
+        // x.style.width = "300px";
+        x.src = '../static/img/' + text + '.jpg';
+
+    }
+
+    function secondImg(x, text) {
+        // x.style.height = "300px";
+        // x.style.width = "300px";
+        x.src = '../static/img/' + text + '.jpg';
+    }
+    </script>
 </body>
 
 </html>
