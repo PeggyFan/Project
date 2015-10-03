@@ -36,13 +36,6 @@ of those sections to manage the look and feel of the site. */
     padding-top: 150px;
     margin-bottom: 0px;
     text-align: center;
-    background: #fff;
-}
-
-.about-section {
-    height: 100%;
-    padding-top: 300px;
-    text-align: center;
     background: #eee;
 }
 
@@ -50,19 +43,16 @@ of those sections to manage the look and feel of the site. */
     height: 100%;
     padding-top: 150px;
     text-align: center;
-    background: #eee;
 }
 
 .positive-section {
     height: 100%;
     padding-top: 150px;
     text-align: center;
-    background: #eee;
 }
 
 .discussion-section {
     height: 100%;
     padding-top: 150px;
     text-align: center;
-    background: #eee;
 }
