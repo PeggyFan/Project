@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>About</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../static/about/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../static/about/css/1-col-portfolio.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<body background="../static/img/wallpaper.png">
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">About</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/index">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">About the New York Times comments dataset
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Project One -->
+        <div class="row">
+            <div class="col-md-7">
+            <iframe width="100%" height="520" frameborder="0" src="https://pfan.cartodb.com/viz/5243e0e8-6937-11e5-a5c6-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+            </div>
+            <div class="col-md-5">
+                <h3>Geographic distribution</h3>
+                <small>Hover over the map to see more information</small>
+                <p>Out of about 90,000 unique comments, about half of them have clear state level data. The map demonstrates the distribution of comments, and hover mouse of each state to get the number of total comments, as well as other statistics such as total recommendations (upvotes received), and number of NYT editor's picks.</p>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Project Two -->
+        <div class="row">
+            <div class="col-md-7">
+                <img class="img-responsive" src="../static/img/comment_sentiment.png" alt="">
+            </div>
+            <div class="col-md-5">
+                <h3>Sentiment distribution among candidates</h3>
+                <p>Sentiment analyses show strikingly similar patterns among the candidates (extremely negative is -1 and extremely positive is 1). Sentiment scores are calculated at the sentence level, and for each comment, taking the most extreme sentence's score. The lack of distinct patterns is likely to be a product of curation using data science and human moderators, where comments are kept more neutral and balanced for discussions</p>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Project Three -->
+        <div class="row">
+            <div class="col-md-7">
+            <img class="img-responsive" src="../static/img/comment_similarities.png" alt="">
+            </div>
+            <div class="col-md-5">
+                <h3>Similarity between comments and their respective articles</h3>
+                <p>How much do comments resemble the articles about each candidate? The cosine similarities using tf-idf show very similar patterns among the candidates. Highly irrelevant comments might have been removed as part of the curation process in general.</p>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+         <footer>
+            <div class="row">
+
+            </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Peggy's CandidateThermometer 2015</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
