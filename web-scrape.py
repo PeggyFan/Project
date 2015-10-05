@@ -11,30 +11,20 @@ import datetime as dt
 import pandas as pd
 from itertools import *
 
-
-client = MongoClient()
+#For a single candidate
 # Initiate Database
 db = client['nyt_articles']
-# Initiate Table
-tab_biden = db['table_biden']
-tab_biden.insert({'biden': 'cool'})
+# Initiate Table for Articles
+tab = db['table_hilary']
+tab.insert({'hilary': 'test'})
 
+# Initiate Table for Comments
 db_comments = client['nyt_comments']
-
-tab_biden = db_comments['table_biden']
-#db_comments.tab_biden.insert({'biden': 'cool'})
-
-db = client['nyt_articles']
-tab_carson = db['table_carson']
-#tab_carson.insert({'carson': 'cool'})
-
-db_comments = client['nyt_comments']
-tab_carson = db_comments['table_carson']
-#db_comments.tab_carson.insert({'carson': 'cool'})
+tab_hilary = db_comments['hilary_table']
+db_comments.tab.insert({'hilary': 'test'})
 
 NYT_URL = 'http://api.nytimes.com/svc/search/v2/articlesearch.json'
 API_KEY = '74c73309c1052e6aa1785df7cd5cef8c:9:69947183'
-
 
 # Query the NYT API once
 def single_query(link, payload):
@@ -69,7 +59,7 @@ def loop_through_pages(total_pages, link, payload, table):
 
 
 # Scrape the meta data (link to article and put it into Mongo)
-def scrape_meta(days=1, search_term, coll):
+def scrape_meta(days=1, search_term, collection):
 
     # The basic parameters for the NYT API
     link = NYT_URL
@@ -105,53 +95,42 @@ def scrape_meta(days=1, search_term, coll):
         loop_through_pages(oldest_sort_pages, link, old_payload, coll)
 
 ##Example
-scrape_meta(days=1, 'Ben Carson', db.table_carson)
+scrape_meta(days=1, 'Hillary Clinton', db.table_hilary)
 
-def get_links(coll):
-	links = coll.find({},{'web_url': 1, '_id' : 0})
+def get_links(collection):
+	links = collection.find({},{'web_url': 1, '_id' : 0})
 	links_list = []
 	for i in links:
 	    link_list.append(str(i['web_url']))
 
-def get_comments(link_list, coll):
-	for url in link_list:
-	    print url
-	    link = "http://api.nytimes.com/svc/community/v3/user-content/url.json?url=" + url
-	    payload = {'api-key': '603ff640088f24876c37e2857d83401f:1:73015248'}     
-	    content = single_query(link, payload)
-	    total = content['results']['totalCommentsFound'] 
-	    if total == 0:
-	        pass
-	    else:
-	        count = ((total/25) + 2)*25
-	        num_pages = list(np.arange(0, count, 25))  
-	            
-	        for i in num_pages:
-	            link = "http://api.nytimes.com/svc/community/v3/user-content/url.json?url=" + url
-	            payload = {'api-key': '60a3f7d54baade3ed03a40bdb5f5e866:3:50984754', 'offset' : i}
-	            for y in range(len(content['results']['comments'])): 
-	                new_data = content['results']['comments'][y]
-	                new_data['web_url'] = url
-	                new_data['_id'] = content['results']['comments'][y]['commentID']
-	                try:
-	                    coll.insert(new_data)
-	                except DuplicateKeyError:
-	                    pass
+##Query comments from the New York Times Community API based on the articles URL extracted
 
+community_key = '603ff640088f24876c37e2857d83401f:1:73015248'
 
-def export_files(coll, name): 
-	comments = list(db_comments.tab.find({}, {'commentBody': 1, 'web_url': 1,  '_id':0})) #exclude ID
-	text = []
-	urls = []
-
-	for i in range(len(comments)):
-	    if comments[i].get('commentBody') == None:
-	        pass
-	    else:
-	        text.append(comments[i]['commentBody'].encode('utf-8'))
-	        urls.append(comments[i]['web_url'])
-
-
-	df = pd.DataFrame(list(izip(text, urls)))
-	df.columns = ['Comment', 'URL']
-	df.to_csv('comments')
+def get_comments(link_list, collection):
+	for url in links_list:
+    link = "http://api.nytimes.com/svc/community/v3/user-content/url.json?url=" + url
+    payload = {'api-key': community_key}     
+    content = single_query(link, payload)
+    total = content['results']['totalCommentsFound'] 
+    if total == 0:
+        pass
+    else:
+        num_pages = list(np.arange(0, total, 25))  
+        for i in num_pages:
+            link = "http://api.nytimes.com/svc/community/v3/user-content/url.json?url=" + url
+            payload = {'api-key': community_key, 'offset' : i}
+            content = single_query(link, payload)
+            
+            if len(content['results']['comments']) != 0: 
+                for y in range(len(content['results']['comments'])): 
+                    new_data = content['results']['comments'][y]
+                    new_data['web_url'] = url
+                    new_data['_id'] = content['results']['comments'][y]['commentID']
+                    try:
+                        db_comments.tab2.insert(new_data)
+                    except DuplicateKeyError:
+                        print 'Duplicate!'
+                        pass
+            else:
+                pass
