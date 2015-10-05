@@ -37,7 +37,6 @@ def export_files(collection, name):
     editor_pd = pd.Series(editor)
     userID_pd = pd.Series(userID)
     date_pd = pd.Series(date)
-    rec_flag_pd = pd.Series(rec_flag)
 
     meta = pd.concat([text_pd, url_pd, rec_pd, locations_pd, editor_pd, userID_pd, date_pd, rec_flag_pd], axis=1)
     meta.to_csv('../data/hillary_meta.csv')

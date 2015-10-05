@@ -12,17 +12,17 @@ import pandas as pd
 from itertools import *
 
 #For a single candidate
-# Initiate Database
+# Initiate Database and Collection for Articles
 db = client['nyt_articles']
-# Initiate Table for Articles
 tab = db['table_hilary']
 tab.insert({'hilary': 'test'})
 
-# Initiate Table for Comments
+# Initiate Table Database and Collection for Comments
 db_comments = client['nyt_comments']
 tab_hilary = db_comments['hilary_table']
 db_comments.tab.insert({'hilary': 'test'})
 
+# API Info
 NYT_URL = 'http://api.nytimes.com/svc/search/v2/articlesearch.json'
 API_KEY = '74c73309c1052e6aa1785df7cd5cef8c:9:69947183'
 
@@ -94,8 +94,13 @@ def scrape_meta(days=1, search_term, collection):
         loop_through_pages(newest_sort_pages, link, new_payload, coll)
         loop_through_pages(oldest_sort_pages, link, old_payload, coll)
 
-##Example
-scrape_meta(days=1, 'Hillary Clinton', db.table_hilary)
+## Example search
+search_terms = ['Hillary Cinton']
+scrape_meta(days=1, search_terms, db.table_hilary)
+
+##Query comments from the New York Times Community API based on the articles URL extracted
+
+# Retrieve article URLs from the articles database
 
 def get_links(collection):
 	links = collection.find({},{'web_url': 1, '_id' : 0})
@@ -103,10 +108,9 @@ def get_links(collection):
 	for i in links:
 	    link_list.append(str(i['web_url']))
 
-##Query comments from the New York Times Community API based on the articles URL extracted
-
 community_key = '603ff640088f24876c37e2857d83401f:1:73015248'
 
+# Get comments from the Community API for each article URL
 def get_comments(link_list, collection):
 	for url in links_list:
     link = "http://api.nytimes.com/svc/community/v3/user-content/url.json?url=" + url
