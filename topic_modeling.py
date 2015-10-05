@@ -8,7 +8,6 @@ import string
 import unidecode
 from sklearn.decomposition import NMF
 import datetime
-%matplotlib inline
 
 class Model(object):
 
@@ -20,9 +19,6 @@ class Model(object):
         self.vectorizer = vectorizer
         self.vector = vector
         self.outdir = outdir
-
-        #self.candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
-	
         self.model = None
         self.matrix = None
         #Output file names:
@@ -33,7 +29,7 @@ class Model(object):
 	    terms = [('mrs. ', ''), ('mr. ', ''), ('ms. ',''), ('dr. ',''), ('sen. ','')]
 	    for k, v in mapping:
     		self.text = text.replace(k, v)
-	     return self.text
+	    return self.text
 
 	def vectorize(self):
 		self.vectorizer = TfidfVectorizer(tokenizer=tokenize, stop_words = 'english')
@@ -43,11 +39,10 @@ class Model(object):
     def build_model(self):
         self.vectorizer, self.vector = self.vectorize()
         self.model = NMF(n_components=self.n_topics).fit(self.vector)
-
-	    self.features = self.vectorizer.get_feature_names()
-	    self.matrix = nmf.transform(self.vectorizer)
+	    #self.features = self.vectorizer.get_feature_names()
+	    #self.matrix = self.model.transform(self.vectorizer)
 	    
-	    return self.matrix, self.model.components_, self.features
+	    #return self.matrix, self.model.components_, self.features
 
 	def output_data(self):
 	    examples = []
@@ -73,10 +68,10 @@ class Model(object):
 	def to_df(self):
 		dat = list(izip(self.topic_words, self.examples))
 		data = pd.DataFrame(list(izip(dat, self.num_per_topics)))
-		data1 = [['keys', 'examples']] = data[0].apply(pd.Series)
-		data1.rename(columns={1:'num'}, inplace=True)
-		data1.drop(0, axis = 1, inplace=True)
-		return data1
+		data[['keys', 'examples']] = data[0].apply(pd.Series)
+		data.rename(columns={1:'num'}, inplace=True)
+		data.drop(0, axis = 1, inplace=True)
+		return data
 
 	def combine_df(df_pos, df_neg):
 		comments = pd.concat([df_pos, df_neg], axis = 1)
@@ -89,72 +84,78 @@ class Model(object):
 if __name__ == '__main__':
 	candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
 	
-	for c in candidates:
-		data = pd.read_csv('data/' + c + '_scores.csv')
-		pos = data[data['Sentiment'] > 0.2]
-		neg = data[data['Sentiment'] < -0.1]
-		dfs = [neg, pos]
-		new_dfs= []
+	data = pd.read_csv('data/sanders_scores.csv')
+	pos = data[data['Sentiment'] > 0.2]
+	neg = data[data['Sentiment'] < -0.1]
+	dfs = [neg, pos]
+	new_dfs= []
 
-	    for idf in dfs:
-	        model = Model(n_topics=10, df=df, vectorizer=vectorizer, vector=vector)
-	        model.build_model()
-	        model.output_data()
-	        new_dfs.append(model.to_df)
+	model = Model(n_topics=10, df=data, vectorizer=vectorizer, vector=vector)
+	model.build_model()
+	model.output_data()
+	new_dfs.append(model.to_df)
 
-		dataframe = combine_df(new_dfs[0], new_dfs[1])
-		dataframe.to_csv('data/' + c + 'topics.csv')
+	# for c in candidates:
+	# 	data = pd.read_csv('data/' + c + '_scores.csv')
+	# 	pos = data[data['Sentiment'] > 0.2]
+	# 	neg = data[data['Sentiment'] < -0.1]
+	# 	dfs = [neg, pos]
+	# 	new_dfs= []
+
+	#     for df in dfs:
+	#         model = Model(n_topics=10, df=df, vectorizer=vectorizer, vector=vector)
+	#         model.build_model()
+	#         model.output_data()
+	#         new_dfs.append(model.to_df)
+
+	# 	dataframe = combine_df(new_dfs[0], new_dfs[1])
+	# 	dataframe.to_csv('data/' + c + 'topics.csv')
 
 
 
 ####################################################
 ################### Original codes
 ####################################################
-vectorizer = TfidfVectorizer(stop_words='english')
-list_ = [pos, neg]
-examples = []
-num_per_topics = []
-topics = []
+# vectorizer = TfidfVectorizer(stop_words='english')
+# list_ = [pos, neg]
+# examples = []
+# num_per_topics = []
+# topics = []
 
-for i in list_: 
-    V = vectorizer.fit_transform(i['Comment'].values).toarray()
-    features = vectorizer.get_feature_names()
-    nmf = NMF(n_components=n).fit(V)
-    matrix = nmf.transform(V)
-    index = matrix.argmax(axis=0)
-    i = i.reset_index()
-    examples.append(i.ix[index]['Comment'].values)
-    matrix = nmf.transform(V)
-    np.sort(matrix, axis =1)
-    values = []
-    keyterms = []
+# for i in list_: 
+#     V = vectorizer.fit_transform(i['Comment'].values).toarray()
+#     features = vectorizer.get_feature_names()
+#     nmf = NMF(n_components=n).fit(V)
+#     matrix = nmf.transform(V)
+#     index = matrix.argmax(axis=0)
+#     i = i.reset_index()
+#     examples.append(i.ix[index]['Comment'].values)
+#     matrix = nmf.transform(V)
+#     np.sort(matrix, axis =1)
+#     values = []
+#     keyterms = []
 
-    for i in range(10):
-        values.append(len(matrix[:,i][matrix[:,i] > 0.05]))
+#     for i in range(10):
+#         values.append(len(matrix[:,i][matrix[:,i] > 0.05]))
 
-    print("##################################################")
-    for topic_idx, topic in enumerate(nmf.components_, 1):
-        print("Topic #%d:" % topic_idx)
-        print(" ".join([features[i]
-                for i in topic.argsort()[:-5 -1:-1]]))
+#     for topic in nmf.components_:
+#         keyterms.append(" ".join([features[i]
+#               for i in topic.argsort()[:-5 -1:-1]]))
 
-        keyterms.append(" ".join([features[i]
-                for i in topic.argsort()[:-5 -1:-1]]))
+#     num_per_topics.append(values)
+#     topics.append(keyterms)
 
-    num_per_topics.append(values)
-    topics.append(keyterms)
+# pos_examples = examples[0]
+# pos1= list(izip(topics[0], pos_examples))
+# data_pos = pd.DataFrame(list(izip(pos1, num_per_topics[0])))
+# data_pos[['pos_keys', 'pos_ex']] = data_pos[0].apply(pd.Series)
+# data_pos.rename(columns={1:'pos_num'}, inplace=True)
+# data_pos.drop(0, axis = 1, inplace=True)
 
-pos_examples = examples[0]
-pos1= list(izip(topics[0], pos_examples))
-data_pos = pd.DataFrame(list(izip(pos1, num_per_topics[0])))
-data_pos[['pos_keys', 'pos_ex']] = data_pos[0].apply(pd.Series)
-data_pos.rename(columns={1:'pos_num'}, inplace=True)
-data_pos.drop(0, axis = 1, inplace=True)
-
-neg_examples = examples[1]
-neg1= list(izip(topics[1], neg_examples))
-data_neg = pd.DataFrame(list(izip(neg1, num_per_topics[1])))
-data_neg[['neg_keys', 'neg_ex']] = data_neg[0].apply(pd.Series)
-data_neg.rename(columns={1:'neg_num'}, inplace=True)
-data_neg.drop(0, axis = 1, inplace=True)
+# neg_examples = examples[1]
+# neg1= list(izip(topics[1], neg_examples))
+# data_neg = pd.DataFrame(list(izip(neg1, num_per_topics[1])))
+# data_neg[['neg_keys', 'neg_ex']] = data_neg[0].apply(pd.Series)
+# data_neg.rename(columns={1:'neg_num'}, inplace=True)
+# data_neg.drop(0, axis = 1, inplace=True)
 
