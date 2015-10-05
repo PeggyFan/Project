@@ -1,18 +1,34 @@
-#NYT Summarizer: A New York Times Comments Summarizer on Presidential Candidates
+##NYT Summarizer: A New York Times Comments Summarizer on Presidential Candidates
 
-Data visualization using topic modeling to explore what the comments discuss and how posters feel about each candidate.
 
 <br>
 <br>
 ![](images_readme/Late_summer.png)
 <br>
 <br>
-Before I go into the motivation, the data, and the modeling process, I would like to explain verbally and visually the directory structure of this repo.
+
+## Overview
+
+This project uses topic modeling and data visualization to explore user discussions and sentiments on the New York Times in regards to six current presidential candidates.
+
+The goal is to find meaingful patterns in discussions about the candidates and detect how users feel towards various issues for individual candidates. For each candidate, I use sentiment analysis to classify positive and negative comments (about 25,000 comments per candidate) and topic modeling to discover issues about which users feel positive and negative towards the candidate.
+
+My results capture the prevailing issues surrounding each candidate and showcase a typical comment for each positive and negative topic. This serves as a summarizer of the current discusssions and provides additional information on the comments' curation by New York times. 
+
+http://nytsummarizer.us
+
+## Process in detail
+The main features of my modeling is sentiment classification and topic words.
+For sentiment classification, I use Pattern, a Python package that takes in a piece of text and gives a sentiment score between -1 and 1 (most negative to most positive). I performed sentiment analysis on each comment in its entirety as well as at sentence level. In the end, I choose to use sentiment score at the sentence-level since it gives better signal than score on the entire comment, which tend to be very close to zero (neutral).
+
+I use Non-negative Matrix Factorialization 
+
+What algorithms and techniques did you use?
+How did you validate your results?
+What interesting insights did you gain?
+
 
 ## Repo Structure
-
-This project repo is divided into three main directories: App, GetData, and Recommender.
-
 ```
 .
 ├── App
