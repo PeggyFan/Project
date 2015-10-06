@@ -42,10 +42,10 @@ if __name__ == '__main__':
     candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
 
     for index, c in candidates:
-        raw = pd.read_csv('data/sanders_meta.csv')
+        raw = pd.read_csv('data/' + c + '_meta.csv')
         data = Data_transform(raw)
-        data.df_transform(terms[1])
-        data.save_df('data/test_sanders.csv')
+        data.df_transform(terms[index])
+        data.save_df('data/' + c + 'scores.csv')
 
 
 ## Saving a master version of all candidate data

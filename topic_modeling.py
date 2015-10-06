@@ -12,23 +12,17 @@ from utils import tokenize
 
 class Model(object):
 
-    def __init__(self, n_topics, df=None, outdir='data/'):
+    def __init__(self, n_topics, df):
         self.n_topics = n_topics
         self.df = df
-        # self.vectorizer = vectorizer
-        # self.vector = vector
-        # self.outdir = outdir
         self.model = None
         self.matrix = None
-        #Output file names:
-        #self.model_file = self.outdir + c + '.csv'
-
 
 	def remove_abb(self, text):
 	    terms = [('mrs. ', ''), ('mr. ', ''), ('ms. ',''), ('dr. ',''), ('sen. ','')]
 	    for k, v in mapping:
-    		self.text = text.replace(k, v)
-	    return self.text
+    		text = text.replace(k, v)
+	    return text
 
     def build_model(self):
         vectorizer = TfidfVectorizer(tokenizer=tokenize, stop_words = 'english')
@@ -40,19 +34,19 @@ class Model(object):
 	    #return self.matrix, self.model.components_, self.features
 
 	def output_data(self):
-	    examples = []
-	    comment = []
-	    topic_words = []
+	    self.examples = []
+	    self.comment = []
+	    self.topic_words = []
 
 	    index = self.matrix.argmax(axis=0)
-	    df = df.reset_index()
-	    examples.append(df.ix[index]['Comment'].values)
+	    self.df = self.df.reset_index()
+	    self.examples.append(self.df.ix[index]['Comment'].values)
 	    np.sort(self.matrix, axis =1)
 
 	    for i in range(self.n_topics):
-	        comment.append(len(self.matrix[:,i][self.matrix[:,i] > 0.05]))
+	        self.comment.append(len(self.matrix[:,i][self.matrix[:,i] > 0.05]))
 	    
-	    num_per_topics = len(comments)
+	    self.num_per_topics = len(comments)
 
 	    for topic in self.model.components_:
 	        topic_words.append(" ".join([self.features[i]
@@ -76,9 +70,10 @@ class Model(object):
 		comments['pos_percent'] = comments['pos_num']/comments['pos_num'].sum()
 		comments['neg_percent'] = comments['neg_num']/comments['neg_num'].sum()
 
+
 if __name__ == '__main__':
     candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
-    data = pd.read_csv('data/sanders_scores.csv')
+    data = pd.read_csv('data/carson_scores.csv')
     data[pd.isnull(data['Comment'])] = ""
     pos = data[data['Sentiment'] > 0.2]
     neg = data[data['Sentiment'] < -0.1]
@@ -89,23 +84,23 @@ if __name__ == '__main__':
     model.build_model()
     model.output_data()
     new_dfs.append(model.to_df)
+    dataframe = combine_df(new_dfs[0], new_dfs[1])
+    dataframe.to_csv('data/test.csv')
 
-	# for c in candidates:
-	# 	data = pd.read_csv('data/' + c + '_scores.csv')
-	# 	pos = data[data['Sentiment'] > 0.2]
-	# 	neg = data[data['Sentiment'] < -0.1]
-	# 	dfs = [neg, pos]
-	# 	new_dfs= []
+    # for c in candidates:
+    #     data = pd.read_csv('data/' + c + '_scores.csv')
+    #     data[pd.isnull(data['Comment'])] = ""
+    #     pos = data[data['Sentiment'] > 0.2]
+    #     neg = data[data['Sentiment'] < -0.1]
+    #     dfs = [neg, pos]
+    #     new_dfs= []
 
-	#     for df in dfs:
-	#         model = Model(n_topics=10, df=df, vectorizer=vectorizer, vector=vector)
-	#         model.build_model()
-	#         model.output_data()
-	#         new_dfs.append(model.to_df)
-
-	# 	dataframe = combine_df(new_dfs[0], new_dfs[1])
-	# 	dataframe.to_csv('data/' + c + 'topics.csv')
-
+    #     model = Model(n_topics=10, df=data)
+    #     model.build_model()
+    #     model.output_data()
+    #     new_dfs.append(model.to_df)
+    #     dataframe = combine_df(new_dfs[0], new_dfs[1])
+    #     dataframe.to_csv('data/' + c + 'topics.csv')
 
 
 ####################################################
