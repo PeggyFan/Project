@@ -12,7 +12,7 @@ class Data_transform(object):
         self.longlat = pd.read_csv('data/longlat.csv', error_bad_lines=False)
     ## Data transformation
 
-    def df_transform(self, terms=terms):    
+    def df_transform(self, terms):    
         self.df[pd.isnull(self.df['Comment'])] = ""
         self.df = self.df.drop_duplicates('Comment')
         self.df['date'] = self.df['date'].apply(lambda x : unix_convert(x))
@@ -21,37 +21,31 @@ class Data_transform(object):
         self.df['Sentiment'] = self.df.apply(lambda row: sentiment_new(row['Comment'], terms), axis = 1)
         self.df['State'] = self.df.apply(lambda row: state_label(str(row['Locations'])), axis = 1)
         self.df = pd.merge(self.df, self.longlat, how='left', on='State')
-        
 
-    def save_pickle_df(self, out_file):
+    def save_df(self, out_file):
         '''
         INPUT String
         OUPUT None
         '''
         pkl.dump(self.df, open(out_file, "wb"))
 
-
 if __name__ == '__main__':
-    raw = pd.read_csv('data/sanders_meta.csv')
-    data = Data_transform(raw)
-    data.df_transform(terms[1])
-    data.save_pickle_df('data/test_sanders.pkl')
+    
+    terms= [['Hillary', 'Rodham', 'Mrs.Clinton'],
+    ['Bernie', 'Sanders', 'Mr.Sanders'],
+    ['Joe', 'Biden', 'Vice President'],
+    ['Donald', 'Trump', 'Mr.Trump'],
+    ['Jeb', 'Bush', 'Governor'],
+    ['Ben', 'Carson', 'Dr.Carson']
+    ]
 
-    # terms= [['Hillary', 'Rodham', 'Mrs.Clinton'],
-    # ['Bernie', 'Sanders', 'Mr.Sanders'],
-    # ['Joe', 'Biden', 'Vice President'],
-    # ['Donald', 'Trump', 'Mr.Trump'].
-    # ['Jeb', 'Bush', 'Governor'],
-    # ['Ben', 'Carson', 'Dr.Carson']
-    # ]
+    candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
 
-    # candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
-
-    # for index, c in candidates:
-    #     data = pd.read_csv('data/'+c+'_meta.csv')
-    #     data = Data_transform(data)
-    #     data.df_transform(terms[index])
-    #     data.save_pickle_df('data/'+c+'_scores.pkl')
+    for index, c in candidates:
+        raw = pd.read_csv('data/sanders_meta.csv')
+        data = Data_transform(raw)
+        data.df_transform(terms[1])
+        data.save_df('data/test_sanders.csv')
 
 
 ## Saving a master version of all candidate data

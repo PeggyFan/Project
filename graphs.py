@@ -1,17 +1,10 @@
 import plotly.tools as tls
-tls.set_credentials_file(username=username,
-                         api_key=key)
+tls.set_credentials_file(username=username, api_key=key)
 credentials = tls.get_credentials_file()
 
 import plotly.plotly as py
 from plotly.graph_objs import *
-
 from topic_modeling import Model
-
-#Define period by months
-def period_convert(x):
-    	return pd.to_datetime(datetime.datetime.fromtimestamp(x).strftime('%Y-%m'))
-
 
 candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
 
@@ -121,12 +114,16 @@ for c in candidates:
 	py.iplot(fig, validate=False, filename= c + '_neg')
 
 
-	#Transform date into months
+#Define period by months
+def period_convert(x):
+    	return pd.to_datetime(datetime.datetime.fromtimestamp(x).strftime('%Y-%m'))
 
+
+
+	#Transform date into months
 	data['new_date'] = data['date'].apply(lambda x : period_convert(x))
 	data['new_date'] = data['new_date'].astype(int)
 	list_ = data['new_date'].unique()
-	list_
 
 	#Subset data by months
 	text_count = []

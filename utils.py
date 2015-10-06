@@ -1,9 +1,12 @@
+import pandas as pd
+import numpy as np
 import re
 import string
 import unidecode
 import datetime
 import json
 from pattern.en import polarity
+from nltk import WordNetLemmatizer, word_tokenize
 
 # Remove unwanted characters
 def clean_text(text):
@@ -42,6 +45,19 @@ def state_label(loc):
             return get_state(tokens[0])
         else:
             return get_state(tokens[1])
+
+# Tokenize
+def tokenize(comment):
+    if comment==np.nan:
+        pass
+    else:
+        tokens = [word.lower() for word in word_tokenize(comment)]
+        
+        # lemmatize
+        lmtzr = WordNetLemmatizer()
+        tokens = [lmtzr.lemmatize(word) for word in tokens]
+
+        return tokens
 
 #Get the sentiment score of the entire comment
 def sentiment(text):

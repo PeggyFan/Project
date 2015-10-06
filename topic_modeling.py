@@ -8,17 +8,16 @@ import string
 import unidecode
 from sklearn.decomposition import NMF
 import datetime
+from utils import tokenize
 
 class Model(object):
 
-    def __init__(self, n_topics, df=None,
-                 vectorizer=None, vector=None, outdir='data/'):
+    def __init__(self, n_topics, df=None, outdir='data/'):
         self.n_topics = n_topics
-        self.n_features = n_features
         self.df = df
-        self.vectorizer = vectorizer
-        self.vector = vector
-        self.outdir = outdir
+        # self.vectorizer = vectorizer
+        # self.vector = vector
+        # self.outdir = outdir
         self.model = None
         self.matrix = None
         #Output file names:
@@ -31,16 +30,12 @@ class Model(object):
     		self.text = text.replace(k, v)
 	    return self.text
 
-	def vectorize(self):
-		self.vectorizer = TfidfVectorizer(tokenizer=tokenize, stop_words = 'english')
-		self.vector = self.vectorizer.fit_transform(df['Comment'].values).toarray()
-    	return self.vectorizer, self.vector
-
     def build_model(self):
-        self.vectorizer, self.vector = self.vectorize()
-        self.model = NMF(n_components=self.n_topics).fit(self.vector)
-	    #self.features = self.vectorizer.get_feature_names()
-	    #self.matrix = self.model.transform(self.vectorizer)
+        vectorizer = TfidfVectorizer(tokenizer=tokenize, stop_words = 'english')
+        vector = vectorizer.fit_transform(self.df['Comment'].values).toarray()
+        self.model = NMF(n_components=self.n_topics).fit(vector)
+        self.features = vectorizer.get_feature_names()
+        self.matrix = self.model.transform(self.vectorizer)
 	    
 	    #return self.matrix, self.model.components_, self.features
 
@@ -82,18 +77,18 @@ class Model(object):
 		comments['neg_percent'] = comments['neg_num']/comments['neg_num'].sum()
 
 if __name__ == '__main__':
-	candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
-	
-	data = pd.read_csv('data/sanders_scores.csv')
-	pos = data[data['Sentiment'] > 0.2]
-	neg = data[data['Sentiment'] < -0.1]
-	dfs = [neg, pos]
-	new_dfs= []
+    candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
+    data = pd.read_csv('data/sanders_scores.csv')
+    data[pd.isnull(data['Comment'])] = ""
+    pos = data[data['Sentiment'] > 0.2]
+    neg = data[data['Sentiment'] < -0.1]
+    dfs = [neg, pos]
+    new_dfs= []
 
-	model = Model(n_topics=10, df=data, vectorizer=vectorizer, vector=vector)
-	model.build_model()
-	model.output_data()
-	new_dfs.append(model.to_df)
+    model = Model(n_topics=10, df=data)
+    model.build_model()
+    model.output_data()
+    new_dfs.append(model.to_df)
 
 	# for c in candidates:
 	# 	data = pd.read_csv('data/' + c + '_scores.csv')
