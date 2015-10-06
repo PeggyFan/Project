@@ -73,7 +73,7 @@ class Model(object):
 
 if __name__ == '__main__':
     candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
-
+    
     for c in candidates:
         data = pd.read_csv('data/' + c + '_scores.csv')
         data[pd.isnull(data['Comment'])] = ""

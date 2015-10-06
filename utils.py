@@ -27,7 +27,7 @@ def unix_convert(x):
 with open('data/states.txt', 'r') as f:
      states = json.load(open('data/states.txt'))
 
-def state_label(loc):
+def state_label(text):
     def get_state(x):
         x_val = x.lower().title()
         if x_val in states.values():
@@ -47,11 +47,11 @@ def state_label(loc):
             return get_state(tokens[1])
 
 # Tokenize
-def tokenize(comment):
-    if comment==np.nan:
+def tokenize(text):
+    if text == np.nan:
         pass
     else:
-        tokens = [word.lower() for word in word_tokenize(comment)]
+        tokens = [word.lower() for word in word_tokenize(text)]
         
         # lemmatize
         lmtzr = WordNetLemmatizer()

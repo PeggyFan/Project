@@ -101,7 +101,6 @@ scrape_meta(days=1, search_terms, db.table_hilary)
 ##Query comments from the New York Times Community API based on the articles URL extracted
 
 # Retrieve article URLs from the articles database
-
 def get_links(collection):
 	links = collection.find({},{'web_url': 1, '_id' : 0})
 	links_list = []
