@@ -1,14 +1,16 @@
 import plotly.tools as tls
-tls.set_credentials_file(username=username, api_key=key)
+#tls.set_credentials_file(username=username, api_key=key)
+tls.set_credentials_file(username="pfan", api_key="nvzyukyl5g")
 credentials = tls.get_credentials_file()
 import plotly.plotly as py
+import pandas as pd
+import datetime
 from plotly.graph_objs import *
 from topic_modeling import Model
 
 #Define period by months
 def period_convert(x):
-    	return pd.to_datetime(datetime.datetime.fromtimestamp(x).strftime('%Y-%m'))
-
+	return pd.to_datetime(datetime.datetime.fromtimestamp(x).strftime('%Y-%m'))
 
 #Positive sentiment graph
 def positive_graph(data, candidate):
@@ -117,9 +119,9 @@ def negative_graph(data, candidate):
 class time_graph(object):
 
 	def __init__(self, df):
-        self.df = df
-        self.topics = []
-        self.counts = None
+		self.df = df
+		self.topics = []
+		self.counts = None
 
 	#Transform date into months
 	def epoch_topics(self):
@@ -132,7 +134,7 @@ class time_graph(object):
 
 		#Get topics and topic keywords for each month
 		for i in range(len(text_count)):
-	    	keyterms = []
+			keyterms = []
 			model = Model(n_topics=5, df=data)
 			model.build_model()
 			examples, topic_words, num_per_topics  = model.output_data()
@@ -203,7 +205,7 @@ class time_graph(object):
 		            y=1500,
 		            xref='x',
 		            yref='y',
-		            text=topics[1],,
+		            text=topics[1],
 		            showarrow=True,
 		            arrowhead=2,
 		            bgcolor='#EAD1DC',
@@ -253,15 +255,24 @@ class time_graph(object):
 
 if __name__ == '__main__':
 
-candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
+	candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
 
-for c in candidates:
-	data = pd.read_csv('data/' + c + '_topics.csv')
-	positive_graph(data, c)
-	negative_graph(data, c)
-	graph = time.graph()
+	data = pd.read_csv('data/carson_scores.csv')
+	#positive_graph(data, c)
+	#negative_graph(data, c)
+	graph = time_graph(data)
 	graph.epoch_topics()
 	graph.epoch_counts()
-	graph.epoch_plot(c)
+	graph.epoch_plot('carson')
+
+
+# for c in candidates:
+# 	data = pd.read_csv('data/' + c + '_topics.csv')
+# 	positive_graph(data, c)
+# 	negative_graph(data, c)
+# 	graph = time.graph()
+# 	graph.epoch_topics()
+# 	graph.epoch_counts()
+# 	graph.epoch_plot(c)
 
 
