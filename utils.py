@@ -6,7 +6,9 @@ import unidecode
 import datetime
 import json
 from pattern.en import polarity
-from nltk import WordNetLemmatizer, word_tokenize
+from nltk import word_tokenize
+from nltk.stem.snowball import SnowballStemmer
+snowball = SnowballStemmer('english')
 
 # Remove unwanted characters
 def clean_text(text):
@@ -19,9 +21,9 @@ def clean_text(text):
     text = unidecode.unidecode(text).replace("\n"," ").replace("\'s","").replace("\'t","")
     return text
 
+#Parse datetime data
 def unix_convert(x):
     return pd.to_datetime(datetime.datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S'))
-
 
 ## Parse State data
 with open('data/states.txt', 'r') as f:
@@ -51,13 +53,8 @@ def tokenize(text):
     if text == np.nan:
         pass
     else:
-        tokens = [word.lower() for word in word_tokenize(text)]
-        
-        # lemmatize
-        lmtzr = WordNetLemmatizer()
-        tokens = [lmtzr.lemmatize(word) for word in tokens]
+        return [snowball.stem(word) for word in word_tokenize(doc.lower())]
 
-        return tokens
 
 #Get the sentiment score of the entire comment
 def sentiment(text):
