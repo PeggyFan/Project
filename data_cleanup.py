@@ -8,9 +8,7 @@ class Data_transform(object):
 
     def __init__(self, df):
         self.df = df
-        # these columns will be stored in the output dataframe
         self.longlat = pd.read_csv('data/longlat.csv', error_bad_lines=False)
-    ## Data transformation
 
     def df_transform(self, terms):    
         self.df[pd.isnull(self.df['Comment'])] = ""

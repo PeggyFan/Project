@@ -1,17 +1,17 @@
 import plotly.tools as tls
 tls.set_credentials_file(username=username, api_key=key)
 credentials = tls.get_credentials_file()
-
 import plotly.plotly as py
 from plotly.graph_objs import *
 from topic_modeling import Model
 
-candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
+#Define period by months
+def period_convert(x):
+    	return pd.to_datetime(datetime.datetime.fromtimestamp(x).strftime('%Y-%m'))
 
-for c in candidates:
-	data = pd.read_csv('data/' + c + '_topics.csv')
 
-	#Positive sentiment graph
+#Positive sentiment graph
+def positive_graph(data, candidate):
 	data = Data([
 	    Bar(
 	        y=data['pos_keys'],
@@ -60,10 +60,11 @@ for c in candidates:
 	)
 
 	fig = Figure(data=data, layout=layout)
-	py.iplot(fig, validate=False, filename= c + '_pos')
+	return py.iplot(fig, validate=False, filename= candidate + '_pos')
 
 
-	#Negative sentiment graph
+#Negative sentiment graph
+def negative_graph(data, candidate):
 	data = Data([
 	    Bar(
 	        y=data['neg_keys'],
@@ -111,196 +112,156 @@ for c in candidates:
 	)
 
 	fig = Figure(data=data, layout=layout)
-	py.iplot(fig, validate=False, filename= c + '_neg')
+	return py.iplot(fig, validate=False, filename= candidate + '_neg')
 
+class time_graph(object):
 
-#Define period by months
-def period_convert(x):
-    	return pd.to_datetime(datetime.datetime.fromtimestamp(x).strftime('%Y-%m'))
-
-
+	def __init__(self, df):
+        self.df = df
+        self.topics = []
+        self.counts = None
 
 	#Transform date into months
-	data['new_date'] = data['date'].apply(lambda x : period_convert(x))
-	data['new_date'] = data['new_date'].astype(int)
-	list_ = data['new_date'].unique()
+	def epoch_topics(self):
+		self.df['new_date'] = self.df['date'].apply(lambda x : period_convert(x))
+		self.df['new_date'] = self.df['new_date'].astype(int)
+		list_ = self.df['new_date'].unique()
+		text_count = []
+		for i in list_:
+		    text_count.append(self.df.ix[self.df['new_date'] == i]['Comment'])
 
-	#Subset data by months
-	text_count = []
+		#Get topics and topic keywords for each month
+		for i in range(len(text_count)):
+	    	keyterms = []
+			model = Model(n_topics=5, df=data)
+			model.build_model()
+			examples, topic_words, num_per_topics  = model.output_data()
+			keyterms.append(topic_words)
+		self.topics.append(keyterms) 
 
-	for i in list_:
-	    text_count.append(data.ix[data['new_date'] == i]['Comment'])
+		return self.topics
 
-	#Get topics and topic keywords for each month
-	topics = []
-	for i in range(len(text_count)):
-    	keyterms = []
-		model = Model(n_topics=5, df=df, vectorizer=vectorizer, vector=vector)
-		model.build_model()
-		examples, topic_words, num_per_topics  = model.output_data()
-		keyterms.append(topic_words)
-	topics.append(keyterms) 
+	def epoch_counts(self):
+	    #Get number of comments within each month for plotting
+		self.counts = pd.DataFrame(self.df['new_date'].value_counts()).reset_index()
+		self.counts.columns = ['new_date', 'count']
+		self.counts.sort('new_date', inplace=True)
 
-    #Get number of comments within each month for plotting
-	counts = pd.DataFrame(data['new_date'].value_counts()).reset_index()
-	counts.columns = ['new_date', 'count']
-	counts.sort('new_date', inplace=True)
-
-	#Repeat the last time point for graphing
-	counts.loc[-1] = np.array(['2015-10', 2014])
-
+		#Repeat the last time point for graphing
+		self.counts.loc[-1] = np.array(['2015-10', 2014])
+		return self.counts
+	
 	#Plot in plot.ly
+	def epoch_plot(self, candidate):
+		trace1 = Scatter(
+		        x=self.counts['new_date'],
+		        y=self.counts['count'],
+		        fill='tozeroy'
+		)
 
-	trace1 = Scatter(
-	        x=counts['new_date'],
-	        y=counts['count'],
-	        fill='tozeroy'
-	)
+		data = Data([trace1])
 
-	data = Data([trace1])
+		layout = Layout(
+		    title='Topic trends, 2015/07-2015/09',
+		    titlefont=Font(
+		            family='Arial, sans-serif',
+		            size=24),
+		    
+		    showlegend=False,
+		    xaxis=XAxis(
+		        title='Time',
+		    ),
+		    
+		    annotations=Annotations([
 
-	layout = Layout(
-	    title='Topic trends, 2015/07-2015/09',
-	    titlefont=Font(
-	            family='Arial, sans-serif',
-	            size=24),
-	    
-	    showlegend=False,
-	    xaxis=XAxis(
-	        title='Time',
-	    ),
-	    
-	    annotations=Annotations([
+		        Annotation(
+		            font=Font(
+		            family='Open Sans',
+		            size=16,
+		            color='#000000'
+		            ),
+		                
+		            x='2010',
+		            y=1500,
+		            xref='x',
+		            yref='y',
+		            text=topics[0],
+		            showarrow=True,
+		            arrowhead=2,
+		            bgcolor='#FFF2CC',
+		            opacity=0.8
+		        ),
+		            
+		        Annotation(
+		            font=Font(
+		            family='Open Sans',
+		            size=16,
+		            color='#000000'
+		            ),
+		                
+		            x='2011',
+		            y=1500,
+		            xref='x',
+		            yref='y',
+		            text=topics[1],,
+		            showarrow=True,
+		            arrowhead=2,
+		            bgcolor='#EAD1DC',
+		            opacity=0.8
+		        ),
+		        
+		        Annotation(
+		            font=Font(
+		            family='Open Sans',
+		            size=16,
+		            color='#000000'
+		            ),
+		                
+		            x='2012',
+		            y=1500,
+		            xref='x',
+		            yref='y',
+		            text=topics[2],
+		            showarrow=True,
+		            arrowhead=2,
+		            bgcolor='#FCE5CD',
+		            opacity=0.8
+		        ),
+		        
+		        ]),
+		    
+		    width=1300,
+		    height=550,
+		    
+		    margin=Margin( # set frame to plotting area margins
+		        t=100,     #   top,
+		        b=100,     #   bottom,
+		        r=20,      #   right,  
+		        l=80#   left
+		    ),
+		    yaxis=YAxis(
+		        title='Number of comments',
+		        titlefont=Font(
+		            family='Open Sans',
+		            size=14,
+		            color='#000000'
+		    )
+		    ))
+		    
+		fig = Figure(data=data, layout=layout)
+		return py.iplot(fig, validate=False, filename= candidate + '_time')
 
-	        Annotation(
-	            font=Font(
-	            family='Open Sans',
-	            size=16,
-	            color='#000000'
-	            ),
-	                
-	            x='2010',
-	            y=1500,
-	            xref='x',
-	            yref='y',
-	            text=topics[0],
-	            showarrow=True,
-	            arrowhead=2,
-	            bgcolor='#FFF2CC',
-	            opacity=0.8
-	        ),
-	            
-	        Annotation(
-	            font=Font(
-	            family='Open Sans',
-	            size=16,
-	            color='#000000'
-	            ),
-	                
-	            x='2011',
-	            y=1500,
-	            xref='x',
-	            yref='y',
-	            text=topics[1],,
-	            showarrow=True,
-	            arrowhead=2,
-	            bgcolor='#EAD1DC',
-	            opacity=0.8
-	        ),
-	        
-	        Annotation(
-	            font=Font(
-	            family='Open Sans',
-	            size=16,
-	            color='#000000'
-	            ),
-	                
-	            x='2012',
-	            y=1500,
-	            xref='x',
-	            yref='y',
-	            text=topics[1],
-	            showarrow=True,
-	            arrowhead=2,
-	            bgcolor='#FCE5CD',
-	            opacity=0.8
-	        ),
-	            
-	    # Annotation(
-	    #         font=Font(
-	    #         family='Open Sans',
-	    #         size=16,
-	    #         color='#000000'
-	    #         ),
-	                
-	    #         x='2013',
-	    #         y=1500,
-	    #         xref='x',
-	    #         yref='y',
-	    #         text='rand paul consistent power<br>collins madison reform',
-	    #         showarrow=True,
-	    #         arrowhead=2,
-	    #         bgcolor='#EEEEEE',
-	    #         opacity=0.8
-	    #     ),
-	          
-	    #     Annotation(
-	    #         font=Font(
-	    #         family='Open Sans',
-	    #         size=16,
-	    #         color='#000000'
-	    #         ),
-	                
-	    #         x='2014',
-	    #         y=1500,
-	    #         xref='x',
-	    #         yref='y',
-	    #         text='public servants afford bankrupt kleptocrats<br>infrastructure pay equity',
-	    #         showarrow=True,
-	    #         arrowhead=2,
-	    #         bgcolor='#D9EAD3',
-	    #         opacity=0.8
-	    #     ),
-	            
-	    #     Annotation(
-	    #         font=Font(
-	    #         family='Open Sans',
-	    #         size=16,
-	    #         color='#000000'
-	    #         ),
-	                
-	    #         x='2015',
-	    #         y=1500,
-	    #         xref='x',
-	    #         yref='y',
-	    #         text='win primary election general 2016 running<br> american resonates ages democratic',
-	    #         showarrow=True,
-	    #         arrowhead=2,
-	    #         bgcolor='#EEEEEE',
-	    #         opacity=0.8
-	    #     ),
-	        
-	        
-	        
-	        ]),
-	    
-	    width=1300,
-	    height=550,
-	    
-	    margin=Margin( # set frame to plotting area margins
-	        t=100,     #   top,
-	        b=100,     #   bottom,
-	        r=20,      #   right,  
-	        l=80#   left
-	    ),
-	    yaxis=YAxis(
-	        title='Number of comments',
-	        titlefont=Font(
-	            family='Open Sans',
-	            size=14,
-	            color='#000000'
-	    )
-	    ))
-	    
-	fig = Figure(data=data, layout=layout)
-	py.iplot(fig, validate=False, filename= c + '_time')
+if __name__ == '__main__':
+
+candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
+
+for c in candidates:
+	data = pd.read_csv('data/' + c + '_topics.csv')
+	positive_graph(data, c)
+	negative_graph(data, c)
+	graph = time.graph()
+	graph.epoch_topics()
+	graph.epoch_counts()
+	graph.epoch_plot(c)
+
+
