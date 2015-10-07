@@ -37,8 +37,9 @@ For sentiment classification, I use  **`Pattern`**, a Python package that takes 
 My analysis focuses on non-neutral comments and comments speficially discussed a particular candidate. I transform these comments into a corpus by tokenization and removal of stop words, and create tf-idf vectors. I use Non-negative Matrix Factorialization (NMF) for topic detection. This algorithm is chosen over alternatives such as LSA after comparing the results. NMF provides more distinct features (topic words) and more interpretable results.
 
 ## Insights
-The visualization presents topics in recent news surrounding each candidate, and while comments vary, it is able to retrive a typical comment that captures the topic’s idea. Exploratory analyses show that the comments on the New York Times are highly curated and balanced. It is not a good dataset for (comment-to-candidate) classification problem as the signals (sentiment, relevancy) are muted.
-As the results demonstrate, the conversations around presidential candadates are diffuse, that is, comments often mention mutiple candidates. This presents difficulty in creating distinct candidate clusters. Often times, it is easier to create issue clusters. 
+- The visualization presents topics in recent news surrounding each candidate, and while comments vary, it is able to retrive a typical comment that captures the topic’s idea. 
+- Exploratory analyses show that the comments on the New York Times are highly curated and balanced. It is not a good dataset for (comment-to-candidate) classification problem as the signals (sentiment, relevancy) are muted.
+- As the results demonstrate, the conversations around presidential candadates are diffuse, that is, comments often mention mutiple candidates. This presents difficulty in creating distinct candidate clusters. Often times, it is easier to create issue clusters. 
 
 **Detailed discussions on my analytical choices can be found here: http://www.peggyfan.wordpress.com**
 
@@ -67,5 +68,6 @@ As the results demonstrate, the conversations around presidential candadates are
 3. **`Modeling & Visualization`** has `topic_modeling.py`, which performs topic modeling on given data and output topic key words, example texts, and number of texts.`similarities.py` calculates the similarity between each comment and its respective article to provide a measure of relevance. It was originally developed as a feature in building a candidate classifier. It then is used to demonstrate overall data patterns. `graphs.py` covers the visualization using plot.ly and cartoDB.
 
 ## Future steps
-I would like to re-visit the classification problem by more feature engineering. For example, using distinct topics associated with each candidate or other measures (subjectivity) to improve classification results.
-More precise clustering could be explored by examining on what topics are the comments overlapping for candidates. For instance, plotting the comments on two axises each representing a topic. Lastly, I would collect data for longer period of time and combine both the comments and news cycles (articles) to predict emerging topics.
+- Re-visit the classification problem by more feature engineering. For example, using distinct topics associated with each candidate or other measures (subjectivity) to improve classification results.
+- Get more precise clustering by examining on what topics are the comments overlapping for candidates. For instance, plotting the comments on two axises each representing a topic.
+- Collect data for longer period of time and combine both the comments and news cycles (articles) to predict emerging topics.
