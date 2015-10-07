@@ -11,7 +11,8 @@
 
 This project uses topic modeling and data visualization to explore user discussions and sentiments on the New York Times in regards to six current presidential candidates.
 
-The goal is to find meaingful patterns in discussions about the candidates and detect how users feel towards various issues for individual candidates. For each candidate, I use sentiment analysis to classify positive and negative comments (about 25,000 comments per candidate) and topic modeling to discover issues about which users feel positive and negative towards the candidate.
+- The goal is to find meaingful patterns in discussions about the candidates and detect how users feel towards various issues for individual candidates.
+- For each candidate, I use sentiment analysis to classify positive and negative comments (about 25,000 comments per candidate) and topic modeling to discover issues about which users feel positive and negative towards the candidate.
 
 My results capture the prevailing issues surrounding each candidate and showcase a typical comment for each positive and negative topic. This serves as a summarizer of the current discusssions and provides additional information on the comments' curation by New York times. 
 
@@ -30,11 +31,9 @@ http://nytsummarizer.us
 <br>
  
 ## Process in detail
-The main features of my modeling is topic modeling by sentiments.
-
-For sentiment classification, I use  **`Pattern`**, a Python package that takes in a piece of text and gives a sentiment score between -1 and 1 (most negative to most positive). I performed sentiment analysis on each comment in its entirety as well as at sentence level. In the end, I choose to use sentiment score at the sentence-level since it gives better signal than score on the entire comment, which tend to be very close to zero (neutral).
-
-My analysis focuses on non-neutral comments and comments speficially discussed a particular candidate. I transform these comments into a corpus by tokenization and removal of stop words, and create tf-idf vectors. I use Non-negative Matrix Factorialization (NMF) for topic detection. This algorithm is chosen over alternatives such as LSA after comparing the results. NMF provides more distinct features (topic words) and more interpretable results.
+- The main features of my modeling is topic modeling by sentiments.
+- For sentiment classification, I use  **`Pattern`**, a Python package that takes in a piece of text and gives a sentiment score between -1 and 1 (most negative to most positive). I performed sentiment analysis on each comment in its entirety as well as at sentence level. In the end, I choose to use sentiment score at the sentence-level since it gives better signal than score on the entire comment, which tend to be very close to zero (neutral).
+- My analysis focuses on non-neutral comments and comments speficially discussed a particular candidate. I transform these comments into a corpus by tokenization and removal of stop words, and create tf-idf vectors. I use Non-negative Matrix Factorialization (NMF) for topic detection. This algorithm is chosen over alternatives such as LSA after comparing the results. NMF provides more distinct features (topic words) and more interpretable results.
 
 ## Insights
 - The visualization presents topics in recent news surrounding each candidate, and while comments vary, it is able to retrive a typical comment that captures the topic’s idea. 
@@ -68,6 +67,6 @@ My analysis focuses on non-neutral comments and comments speficially discussed a
 3. **`Modeling & Visualization`** has `topic_modeling.py`, which performs topic modeling on given data and output topic key words, example texts, and number of texts.`similarities.py` calculates the similarity between each comment and its respective article to provide a measure of relevance. It was originally developed as a feature in building a candidate classifier. It then is used to demonstrate overall data patterns. `graphs.py` covers the visualization using plot.ly and cartoDB.
 
 ## Future steps
-- Re-visit the classification problem by more feature engineering. For example, using distinct topics associated with each candidate or other measures (subjectivity) to improve classification results.
+- Re-visit the classification problem by doing more feature engineering. For example, using distinct topics associated with each candidate or other measures (subjectivity) to improve classification results.
 - Get more precise clustering by examining on what topics are the comments overlapping for candidates. For instance, plotting the comments on two axises each representing a topic.
 - Collect data for longer period of time and combine both the comments and news cycles (articles) to predict emerging topics.
