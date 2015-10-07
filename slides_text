@@ -2,3 +2,10 @@ Matrix factorization
 Dimensionality reduction
 Latent properties
 Linear combination of features
+
+Let matrix V be the product of the matrices W and H,
+
+\mathbf{V} = \mathbf{W} \mathbf{H} \,.
+Matrix multiplication can be implemented as computing the columns vectors of V as linear combinations of the column vectors in W using coefficients supplied by columns of H. That is, each column of V can be computed as follows:
+
+\mathbf{v}_i = \mathbf{W} \mathbf{h}_{i} \,,
