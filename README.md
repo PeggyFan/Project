@@ -34,7 +34,7 @@ http://nytsummarizer.us
 - The main features of my modeling is topic modeling by sentiments.
 - For sentiment classification, I use  **`Pattern`**, a Python package that takes in a piece of text and gives a sentiment score between -1 and 1 (most negative to most positive). I perform sentiment analysis on each comment in its entirety as well as at sentence level. In the end, I choose to use sentiment score at the sentence-level since it gives better signal than score on the entire comment, which tend to be very close to zero (neutral).
 - My analysis focuses on non-neutral comments and comments speficially discussed a particular candidate. I transform these comments into a corpus by tokenization and removal of stop words, and create tf-idf vectors. I use Non-negative Matrix Factorialization (NMF) for topic detection. This algorithm is chosen over alternatives such as LSA after comparing the results. NMF provides more distinct features (topic words) and more interpretable results.
-- Validation is achieved by picking the optimal number of topics. I use PCA on the corpus to infer the number of components. I also calculate the perplexity on a held-out set and the Kullback-Leibler divergence on the results for a range of number of topics (5 to 20). In general the ideal number of topics falls between 5 and 10 for each model.
+- Validation is achieved by picking the optimal number of topics. I use PCA on the corpus to infer the number of components. I also calculate the perplexity on a held-out set and the Kullback-Leibler divergence (entropy) on the clusters for a range of number of topics (5 to 20). In general the ideal number of topics falls between 5 and 10 for each model.
 
 
 ## Insights
