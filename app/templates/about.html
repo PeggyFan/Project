@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>About</title>
+    <title>NYT Summarizer</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../static/about/css/bootstrap.min.css" rel="stylesheet">
@@ -41,13 +41,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">About</a>
+                <a class="navbar-brand" href="/index">NYT Summarizer</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="/index">Home</a>
+                        <a href="#">About</a>
                     </li>
                 </ul>
             </div>
@@ -76,7 +76,11 @@
             <div class="col-md-5">
                 <h3>Geographic distribution</h3>
                 <small>Hover over the map to see more information</small>
-                <p>Out of about <strong>90,000 unique comments, about half of them have clear state level data</strong>. The map demonstrates the distribution of comments, and hover mouse of each state to get the number of total comments, as well as other statistics such as total recommendations (upvotes received), and number of NYT editor's picks. Overall, <strong>editor's pick comments fall between 2-3% of total number of comments by state</strong>, regardless of the number of comments generated from each state</p>
+                    <ul>
+                      <li>Out of about <strong>90,000 unique comments, about half of them have clear state level data</strong></li>
+                      <li>The map demonstrates the distribution of comments, and hover mouse of each state to get the number of total comments, as well as other statistics such as <strong>total recommendations (upvotes received), and number of NYT editor's picks</strong></li>
+                      <li>Overall, <strong>editor's pick comments fall between 2-3% of total number of comments by state</strong>, regardless of the number of comments generated from each state</li>
+                    </ul>  
             </div>
         </div>
         <!-- /.row -->
@@ -90,7 +94,11 @@
             </div>
             <div class="col-md-5">
                 <h3>Sentiment distribution among candidates</h3>
-                <p>Sentiment analyses show strikingly similar patterns among the candidates (extremely negative is -1 and extremely positive is 1). Sentiment scores are calculated at the sentence level, and for each comment, it is based on the most extreme sentence's score. <strong>The lack of distinct patterns is likely to be a product of curation using data science and human moderators</strong>, where comments are kept more neutral and balanced for discussions</p>
+                    <ul>
+                      <li>Sentiment analyses show <strong>strikingly similar patterns</strong> among the candidates (extremely negative is -1 and extremely positive is 1).</li>
+                      <li>Sentiment scores are calculated at the <strong>sentence level</strong>, and for each comment, it is based on the most extreme sentence's score</li>
+                      <li><strong>The lack of distinct patterns is likely to be a product of curation using data science and human moderators</strong>, where comments are kept more neutral and balanced for discussions</li>
+                    </ul>     
             </div>
         </div>
         <!-- /.row -->
@@ -103,8 +111,12 @@
             <img class="img-responsive" src="../static/img/comment_similarities.png" alt="">
             </div>
             <div class="col-md-5">
-                <h3>Similarity between comments and their respective articles</h3>
-                <p>How much do comments resemble the articles about each candidate? The cosine similarities using tf-idf show very similar patterns among the candidates. <strong>Highly irrelevant comments might have been removed as part of the curation process in general.</strong></p>
+                <h3>Similarity between comments and their respective articles</h3>               
+                    <ul>
+                      <li>How much do comments <strong>resemble the articles</strong>, by candidate?</li>
+                      <li>The cosine similarities using tf-idf show <strong>very similar patterns</strong> among the candidates.</li>
+                      <li>Highly irrelevant comments might have been removed as part of the curation process in general.</li>
+                    </ul>  
             </div>
         </div>
         <!-- /.row -->
