@@ -70,16 +70,17 @@
 
         <!-- Project One -->
         <div class="row">
-            <div class="col-md-7">
-            <iframe width="100%" height="520" frameborder="0" src="https://pfan.cartodb.com/viz/5243e0e8-6937-11e5-a5c6-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+            <div>
+                <iframe width="100%" height="520" frameborder="0" src="https://pfan.cartodb.com/viz/5243e0e8-6937-11e5-a5c6-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
             </div>
-            <div class="col-md-5">
+            <div class="graph_desc">
                 <h3>Geographic distribution</h3>
                 <small>Hover over the map to see more information</small>
                     <ul>
                       <li>Out of about <strong>90,000 unique comments, about half of them have clear state level data</strong></li>
-                      <li>The map demonstrates the distribution of comments, and hover mouse of each state to get the number of total comments, as well as other statistics such as <strong>total recommendations (upvotes received), and number of NYT editor's picks</strong></li>
-                      <li>Overall, <strong>editor's pick comments fall between 2-3% of total number of comments by state</strong>, regardless of the number of comments generated from each state</li>
+                      <li>Comments are curated in two additional lists: <strong>reader recommendations</strong> and <strong>editor's picks by the NYT moderators</strong></li>
+                      <li>The map demonstrates the distribution of the <strong>total number of comments across states</strong>, as well as other statistics such as <strong>total recommendations, and number of NYT editor's picks</strong></li>
+                      <li>Overall, <strong>editor's pick comments fall between 2-3% of total number of comments by state</strong>, regardless of the number of comments generated from each state. Edictor's pick might be striving for balanced representation as a criterion.</li>
                     </ul>  
             </div>
         </div>
@@ -89,44 +90,21 @@
 
         <!-- Project Two -->
         <div class="row">
-            <div class="col-md-7">
+            <div>
                 <img class="img-responsive" src="../static/img/comment_sentiment.png" alt="">
             </div>
-            <div class="col-md-5">
+            <div class="graph_desc">
                 <h3>Sentiment distribution among candidates</h3>
                     <ul>
-                      <li>Sentiment analyses show <strong>strikingly similar patterns</strong> among the candidates (extremely negative is -1 and extremely positive is 1).</li>
-                      <li>Sentiment scores are calculated at the <strong>sentence level</strong>, and for each comment, it is based on the most extreme sentence's score</li>
-                      <li><strong>The lack of distinct patterns is likely to be a product of curation using data science and human moderators</strong>, where comments are kept more neutral and balanced for discussions</li>
+                     <li>Sentiment scores are calculated at the <strong>sentence level</strong>, and for each comment, it is based on the most extreme sentence's score</li>
+                      <li>Sentiment analyses show <strong>strikingly similar patterns</strong> among the candidates.</li>
+                      <li>There is a lack of distinct patterns, which implies that comments we see are more <strong>neutral and balanced</strong>. This might be a result of editorial team's moderating.</li>
                     </ul>     
             </div>
         </div>
         <!-- /.row -->
 
-        <hr>
-
-        <!-- Project Three -->
-        <div class="row">
-            <div class="col-md-7">
-            <img class="img-responsive" src="../static/img/comment_similarities.png" alt="">
-            </div>
-            <div class="col-md-5">
-                <h3>Similarity between comments and their respective articles</h3>               
-                    <ul>
-                      <li>How much do comments <strong>resemble the articles</strong>, by candidate?</li>
-                      <li>The cosine similarities using tf-idf show <strong>very similar patterns</strong> among the candidates.</li>
-                      <li>Highly irrelevant comments might have been removed as part of the curation process in general.</li>
-                    </ul>  
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <hr>
-         <footer>
-            <div class="row">
-
-            </div>
-
+        
         <!-- Footer -->
         <footer>
             <div class="row">

@@ -11,7 +11,9 @@ body {
 .row {
     background-color: #eee;
 }
-
+.graph_desc {
+    margin-left: 30px;
+}
 footer {
     margin: 50px 0;
 }
