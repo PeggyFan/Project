@@ -3,7 +3,7 @@
 
 <br>
 <br>
-![](images_readme/NYT_summarizer.png )
+![](images_readme/NYT_summarizer1.png )
 <br>
 <br>
 
