@@ -9,12 +9,12 @@
 
 ## Overview
 
-This project uses topic modeling and data visualization to explore user discussions and sentiments on the New York Times in regards to six current presidential candidates.
+This project uses topic modeling and data visualization to explore user discussions and sentiments on the New York Times for six current presidential candidates.
 
-- The goal is to find meaingful patterns in discussions about the candidates and detect how users feel towards various issues for individual candidates.
-- For each candidate, I use sentiment analysis to classify positive and negative comments (about 25,000 comments per candidate) and topic modeling to discover issues about which users feel positive and negative towards the candidate.
+- The goal is to find meaningful topics among the positive and negative comments about individual candidates.
+- For each candidate, I use sentiment analysis to classify about 25,000 comments into positive and negative comments, and then perform topic modeling to discover issues about which users feel positive and negative towards the candidate.
 
-My results capture the prevailing issues surrounding each candidate and showcase a typical comment for each positive and negative topic. This serves as a summarizer of the current discusssions and provides additional information on the comments' curation by New York times. 
+The visualization captures the prevailing issues surrounding each candidate and showcase a representative comment for each positive and negative topic. This serves as a summarizer of the current discusssions. In addition, it provides information on the geographic and sentiment distribution of all the comments in the dataset.
 
 http://nytsummarizer.us
 
@@ -31,16 +31,16 @@ http://nytsummarizer.us
 <br>
  
 ## Process in detail
-- The main features of my modeling is topic modeling by sentiments.
-- For sentiment classification, I use  **`Pattern`**, a Python package that takes in a piece of text and gives a sentiment score between -1 and 1 (most negative to most positive). I perform sentiment analysis on each comment in its entirety as well as at sentence level. In the end, I choose to use sentiment score at the sentence-level since it gives better signal than score on the entire comment, which tend to be very close to zero (neutral).
-- My analysis focuses on non-neutral comments and comments speficially discussed a particular candidate. I transform these comments into a corpus by tokenization and removal of stop words, and create tf-idf vectors. I use Non-negative Matrix Factorialization (NMF) for topic detection. This algorithm is chosen over alternatives such as LSA after comparing the results. NMF provides more distinct features (topic words) and more interpretable results.
-- Validation is achieved by picking the optimal number of topics. I use PCA on the corpus to infer the number of components. I also try latent dirichlet allocation (LDA) and calculate the perplexity on a held-out set and the Kullback-Leibler divergence (entropy) on the clusters for a range of number of topics (5 to 20). In general the ideal number of topics falls between 5 and 10 for each model.
+- The main features of my project are topics and trends in the comments for each candidate.
+- For sentiment classification, I use  **`Pattern`**, a Python package that takes in a piece of text and gives a sentiment score between -1 and 1 (most negative to most positive). I perform sentiment analysis on each comment (in its entirety) as well as at the sentence level. In the end, I choose to use sentiment score at the sentence-level since it gives better signal than score on the entire comment, which tends to be very close to zero (neutral).
+- My analysis focuses on non-neutral comments and comments that speficially mentioned a particular candidate. I transform the  corpus into TF-IDF vectors by tokenization, and removal of stop words and other unwanted characters. I use Non-negative Matrix Factorialization (NMF) for topic detection. This algorithm is chosen over alternatives such as LSA after comparing the results. NMF provides more distinct features (topic words) that are also more interpretable.
+- Validation is achieved by choosing the optimal number of topics. I accomplish it in two ways. First, I use PCA on the corpus to infer the number of components. Then I use gensim and perform latent dirichlet allocation (LDA) on the corpus for a range of numbers for the topics (5, 10, 15, 20, 25). For each trial, I calculate the perplexity on a held-out set, and also the Kullback-Leibler divergence (entropy) on the clusters. Across corpus for each candidate, the ideal number of topics falls between 5 and 10. In the case of equal level of perplexity or entropy, I use my own judgement on whether the topics make sense given the topic words.
 
 
 ## Insights
-- The visualization presents topics in recent news surrounding each candidate, and while comments vary, it is able to retrive a typical comment that captures the topic’s idea. 
-- Exploratory analyses show that the comments on the New York Times are highly curated and balanced. It is not a good dataset for (comment-to-candidate) classification problem as the signals (sentiment, relevancy) are muted.
-- As the results demonstrate, the conversations around presidential candadates are diffuse, that is, comments often mention mutiple candidates. This presents difficulty in creating distinct candidate clusters. Often times, it is easier to create issue clusters. 
+- The visualization captures topics about each candidate in recent news, and while comments vary, it gives a typical comment that represents the topic’s idea. 
+- Exploratory analyses show that the comments on the New York Times are highly balanced in terms of sentiments and other measures. I will need more feature engineering for (comment-to-candidate) classification problem as the signals (sentiment, relevancy) are muted.
+- As the results demonstrate, the conversations around presidential candadates are diffuse; that is, comments often mention mutiple candidates. This presents difficulty in creating distinct candidate clusters. Often times, it is easier to create issue clusters. 
 
 **Detailed discussions on my analytical choices can be found here: http://www.peggyfan.wordpress.com**
 
