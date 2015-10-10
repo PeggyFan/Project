@@ -13,6 +13,10 @@ class MongoToDataFrame(object):
         self.df = None
 
     def create_df(self, database, collection):
+        '''
+        INPUT mongoDB database, collection
+        OUTPUT DataFrame
+        '''
         db = client[database]
         coll = db[collection]
         coll_dict = list(coll.find({}, {'commentBody':1, 'web_url':1, 
@@ -29,16 +33,12 @@ class MongoToDataFrame(object):
         '''
         pkl.dump(self.df, open(out_file, "wb"))
 
-    def get_data_frame(self):
-        return self.df
-
-
 if __name__ == '__main__':
 
     candidates = ['hillary', 'sanders', 'biden', 'trump', 'bush', 'carson'] 
     for c in candidates:
         to_df = MongoToDataFrame()
-        to_df.create_df('nyc_comments', 'tab_'+c)
+        to_df.create_df('nyc_comments', 'table_'+c)
         to_df.save_pickle_df('data/' + c + '_data.pkl')
         
     ##

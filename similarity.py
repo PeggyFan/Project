@@ -15,15 +15,20 @@ from utils import tokenize
 
 class similarity(object):
     def __init__(self, df):
+        '''
+        INPUT DataFrame (comments)
+        OUPUT None
+        '''
         self.df = df
         self.tfidfvect = TfidfVectorizer(stop_words='english', tokenizer=tokenize)
         self.tfidf_vectorized = None
         self.cond = None
 
     def create_document_matrix(self):
+        # Create a list of unique URLs from the comments data
         unique_url = self.df['URL'].unique()
 
-    #Retrieve article content
+        # Retrieve article content
         for url in unique_url:
             html = requests.get(url).content
             soup = BeautifulSoup(html, 'html.parser')
@@ -32,17 +37,21 @@ class similarity(object):
             body_text = unidecode.unidecode(content).replace("\n"," ").replace("\'s","").replace("\'t","")
             self.df['Article'] = unidecode.unidecode(content).replace("\n"," ").replace("\'s","").replace("\'t","")
 
-            #Find all comments related to a given article
+            # Find all comments related to a given article
             self.cond = self.df['URL'] == url
             df_url = self.df[self.cond]
             documents = df_url['Comment']
             body_text = np.array(body_text)
-            #Create a document matrix with the article and its comments
-            documents = np.append(documents.values, body_text) #body_text is the very last element in the array
+            
+            # Create a document matrix with the article and its comments
+            documents = np.append(documents.values, body_text) # body_text is the very last element in the array
             self.tfidf_vectorized = self.tfidfvect.fit_transform(documents).toarray()
 
-    #
+    # Calculate similarity between each comment and its respective article
     def get_similarity(self):
+        '''
+        OUTPUT DataFrame
+        '''
         similar_to_article = []
         for comment in self.tfidf_vectorized[:-1]:
             similar_to_article.append(cosine_similarity(comment, self.tfidf_vectorized[-1])[0, 0])
