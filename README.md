@@ -60,12 +60,13 @@ Explore [NYT Summarizer](http://nytsummarizer.us).
 |   ├── topic_modeling.py
 |   └── similarity.py
 |   └── graphs.py
+├── Validation
 |   └── model_comparison.py
 
 
 ```
 
-1. **`App`**: This directory contains the web application using Flask `app.py` , and templates of candidate's pages.
+1. **`App`**: This directory contains the web application using Flask `app.py` , and templates and CSS files of candidates' pages.
 2. **`Data preparation`**: The `web_scrape.py` gets data from the New York Times Articles Search API and Community API (for user comments) and stores in MongoDB databases. `mongodb_toDF.py` transfers the data from the Mongodb databases to python in form of pandas dataframes. The `data_cleanup.py` then prepares the data for modeling and analyses, in which `utils.py` is used to accomplish major tasks such as removing non-essential characters, calculating sentiment scores, converting date field, and parsing location data.
 3. **`Modeling & Visualization`** has `topic_modeling.py`, which performs topic modeling on given data and output topic key words, example texts, and number of texts.`similarities.py` calculates the similarity between each comment and its respective article to provide a measure of relevance. It was originally developed as a feature in building a candidate classifier. It then is used to demonstrate overall data patterns. `graphs.py` covers the visualization using plot.ly and cartoDB.
 4. `model_comparison.py` includes validation results using PCA and LDA.
