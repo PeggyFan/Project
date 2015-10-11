@@ -42,7 +42,7 @@ Explore [NYT Summarizer](http://nytsummarizer.us).
 - Exploratory analyses show that the comments on the New York Times are highly balanced in terms of sentiments and other measures. I will need more feature engineering for (comment-to-candidate) classification problem as the signals (sentiment, relevancy) are muted.
 - As the results demonstrate, the conversations around presidential candadates are diffuse; that is, comments often mention mutiple candidates. This presents difficulty in creating distinct candidate clusters. Often times, it is easier to create issue clusters. 
 
-**Detailed discussions on my analytical choices can be found on [my blog](http://www.peggyfan.wordpress.com)**
+**Detailed discussions on my analytical choices can be found on [my blog].(http://www.peggyfan.wordpress.com)**
 
 ## Repo Structure
 ```
@@ -63,7 +63,6 @@ Explore [NYT Summarizer](http://nytsummarizer.us).
 
 ```
 
-
 1. **`App`**: This directory contains the web application using Flask `app.py` , and templates of candidate's pages.
 2. **`Data preparation`**: The `web_scrape.py` gets data from the New York Times Articles Search API and Community API (for user comments) and stores in MongoDB databases. `mongodb_toDF.py` transfers the data from the Mongodb databases to python in form of pandas dataframes. The `data_cleanup.py` then prepares the data for modeling and analyses, in which `utils.py` is used to accomplish major tasks such as removing non-essential characters, calculating sentiment scores, converting date field, and parsing location data.
 3. **`Modeling & Visualization`** has `topic_modeling.py`, which performs topic modeling on given data and output topic key words, example texts, and number of texts.`similaritys.py` calculates the similarity between each comment and its respective article to provide a measure of relevance. It was originally developed as a feature in building a candidate classifier. It then is used to demonstrate overall data patterns. `graphs.py` covers the visualization using plot.ly and cartoDB.
@@ -72,3 +71,12 @@ Explore [NYT Summarizer](http://nytsummarizer.us).
 - Re-visit the classification problem by doing more feature engineering. For example, using distinct topics associated with each candidate or other measures (subjectivity) to improve classification results.
 - Get more precise clustering by examining on what topics are the comments overlapping for candidates. For instance, plotting the comments on two axises each representing a topic.
 - Collect data for longer period of time and combine both the comments and news cycles (articles) to predict emerging topics.
+
+## Tools used
+- MongoDB, pymongo
+- NYT Article Search & Community API
+- BeautifulSoup
+- NumPy, SciPy, scikit-learn, Pandas
+- NLTK
+- gensim 
+- Plot.ly, CartoDB
