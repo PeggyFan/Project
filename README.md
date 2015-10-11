@@ -42,7 +42,7 @@ Explore [NYT Summarizer](http://nytsummarizer.us).
 - Exploratory analyses show that the comments on the New York Times are highly balanced in terms of sentiments and other measures. I will need more feature engineering for (comment-to-candidate) classification problem as the signals (sentiment, relevancy) are muted.
 - As the results demonstrate, the conversations around presidential candadates are diffuse; that is, comments often mention mutiple candidates. This presents difficulty in creating distinct candidate clusters. Often times, it is easier to create issue clusters. 
 
-**Detailed discussions on my analytical choices can be found on [my blog].(http://www.peggyfan.wordpress.com)**
+**Detailed discussions on my analytical choices can be found on [my blog](http://www.peggyfan.wordpress.com).**
 
 ## Repo Structure
 ```
