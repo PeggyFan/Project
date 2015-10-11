@@ -22,6 +22,10 @@ data1[pd.isnull(data['Comment'])] = ""
 
 ### PCA
 def pca_train(text):
+    '''
+    INPUT string
+    OUTPUT matrix
+    '''
     content = text 
     texts = [[word for word in comment.lower().split() if word not in stopwords.words('english')]
         for comment in content]
@@ -35,6 +39,10 @@ def pca_train(text):
 X_pca = pca_train(data1['Comment'].values)
 
 def scree_plot(pca, title=None):
+    '''
+    INPUT matrix
+    OUTPUT plot
+    '''
     num_components = pca.n_components_
     ind = np.arange(num_components)
     vals = pca.explained_variance_ratio_
@@ -100,11 +108,19 @@ data = pd.DataFrame(grid)
 
 # Define KL function
 def sym_kl(p,q):
+    '''
+    INPUT float
+    OUTPUT float
+    '''
     return np.sum([stats.entropy(p,q),stats.entropy(q,p)])
 
 l = np.array([sum(cnt for _, cnt in doc) for doc in corpus])
 
 def kl_calc(corpus, dictionary, max_topics, min_topics=1, step=1):
+    '''
+    INPUT string, dictionary
+    OUTPUT list
+    '''
     kl = []
     for i in range(min_topics,max_topics,step):
         lda = models.ldamodel.LdaModel(corpus=corpus,id2word=dictionary,num_topics=i)
@@ -120,7 +136,6 @@ def kl_calc(corpus, dictionary, max_topics, min_topics=1, step=1):
         cm2 = cm2/cm2norm
         kl.append(sym_kl(cm1,cm2))
     return kl
-
 
 kl = kl_calc(corpus,dictionary,max_topics=30)
 
