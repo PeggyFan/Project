@@ -12,7 +12,7 @@
 This project uses topic modeling and data visualization to explore user discussions and sentiments on the New York Times for six current presidential candidates.
 
 - The goal is to find meaningful topics among the positive and negative comments about individual candidates.
-- For each candidate, I use sentiment analysis to classify about 25,000 comments into positive and negative comments, and then perform topic modeling to discover issues about which users feel positive and negative towards the candidate.
+- For each candidate, I use sentiment analysis to classify about 25,000 comments into positive and negative comments, and then perform topic modeling on these two sets of comments to discover what issues users feel positive and negative towards the candidate.
 
 The visualization captures the prevailing issues surrounding each candidate and showcase a representative comment for each positive and negative topic. This serves as a summarizer of the current discusssions. In addition, it provides information on the geographic and sentiment distribution of all the comments in the dataset.
 
